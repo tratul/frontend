@@ -14,6 +14,15 @@
                 <li class="nav-item">
                 <router-link class="nav-link" :to="{name:'About'}">About</router-link>
                 </li>
+                <li class="nav-item">
+                <router-link class="nav-link" :to="{name:'Blog'}">Blog</router-link>
+                </li>
+                <li class="nav-item">
+                <router-link class="nav-link" :to="{name:'Register'}">Register</router-link>
+                </li>
+                <li class="nav-item">
+                <router-link class="nav-link" :to="{name:'Logout'}">Logout</router-link>
+                </li>
             </ul>
             </div>
         </div>
