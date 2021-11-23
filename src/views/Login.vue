@@ -34,14 +34,26 @@ export default {
   data(){
       return {
           credential: {
-              email: 'admin@gmail.com',
-              password: '123456'
+              email: null,
+              password: null
           }
       }
   },
   methods:{
       login(){
-          this.$store.dispatch('login', this.credential)
+          this.$store.dispatch('login', this.credential).then(res=>{
+              //eslint-disable-next-line no-undef
+              toastr.success(res.message)
+              this.$router.push({
+                  name: 'Home'
+              })
+          }).catch(error=> {
+            // eslint-disable-next-line no-unused-vars
+            for(const [k , v] of Object.entries(error.response.data.errors)){
+                //eslint-disable-next-line no-undef
+                toastr.error(v)
+            } 
+        })
       }
   }
 }

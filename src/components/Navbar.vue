@@ -14,13 +14,16 @@
                 <li class="nav-item">
                 <router-link class="nav-link" :to="{name:'About'}">About</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="loggedIn">
                 <router-link class="nav-link" :to="{name:'Blog'}">Blog</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="!loggedIn">
+                <router-link class="nav-link" :to="{name:'Login'}">Login</router-link>
+                </li>
+                <li class="nav-item" v-if="!loggedIn">
                 <router-link class="nav-link" :to="{name:'Register'}">Register</router-link>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="loggedIn">
                 <router-link class="nav-link" :to="{name:'Logout'}">Logout</router-link>
                 </li>
             </ul>
@@ -33,7 +36,10 @@
 
 export default {
   name: 'Navbar',
-  components: {
+  computed: {
+      loggedIn() {
+          return this.$store.getters.loggedIn
+      }
   }
 }
 </script>
