@@ -38,6 +38,19 @@ export default new Vuex.Store({
         })
       })
     },
+    register(context, formdata){
+      return new Promise((resolve, reject)=>{
+        axios.post('/register',{
+          name: formdata.name,
+          email: formdata.email,
+          password: formdata.password
+        }).then(res=>{
+           resolve(res.data)
+        }).catch(error=>{
+          reject(error)
+        })
+      })
+    },
     logout(context){
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       return new Promise((resolve, reject)=>{

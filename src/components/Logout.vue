@@ -12,11 +12,6 @@ export default {
         toastr.success(res.message)
         this.$router.push({
             name: 'Login'
-        }).catch(error=> {
-          //eslint-disable-next-line no-unused-vars
-          for(const [k , v] of Object.entries(error.response.data.errors))
-          //eslint-disable-next-line no-undef
-          toastr.error(v)
         })
     })
   }
