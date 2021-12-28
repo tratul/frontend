@@ -49,10 +49,11 @@ export default {
               })
           }).catch(error=> {
             // eslint-disable-next-line no-unused-vars
-            for(const [k , v] of Object.entries(error.response.data.errors)){
-                //eslint-disable-next-line no-undef
-                toastr.error(v)
-            } 
+            // for(const [k , v] of Object.entries(error.response.data)){
+            //     //eslint-disable-next-line no-undef
+            //     toastr.error(v)
+            // } 
+            console.log(error)
         })
       }
   }

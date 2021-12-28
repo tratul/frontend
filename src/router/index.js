@@ -45,6 +45,32 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/products",
+    name: "products",
+    component: () => import("../components/ProductsList"),
+     meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/shop",
+    name: "shop",
+    component: () => import("../components/Shop"),
+     meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/products/:slug",
+    name: "product-details",
+    component: () => import("../components/ProductUpdate")
+  },
+  {
+    path: "/add",
+    name: "products-add",
+    component: () => import("../components/AddProduct")
   }
 ]
 

@@ -4,34 +4,51 @@ import axios from "axios";
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL= "http://127.0.0.1:8000/api/v1"
+axios.defaults.baseURL= "http://127.0.0.1:8000"
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('accessToken') || null
+    token: localStorage.getItem('accessToken') || null,
+    isSuper: false
   },
   getters: {
     loggedIn(state){
       return state.token !== null
+    },
+    isSuper(state){
+       return state.isSuper
     }
   },
   mutations: {
-    setToken(state, token){
-      state.token = token
+    setToken(state, data){
+      state.token = data.access
+
+      state.isSuper = data.is_superuser == true ? true : false
+    
+      // if(data.is_superuser == true){
+      //   state.isSuper =true
+      // }
+      // else{
+      //   state.isSuper =false
+      // }
     },
     removeToken(state){
-      state.token = null
+      state.token = null,
+      state.isSuper= null
     }
   },
   actions: {
     login(context, credential){
       return new Promise((resolve, reject)=>{
-        axios.post('/login',{
+        axios.post('/users/login/',{
           email: credential.email,
           password: credential.password
         }).then(res=>{
-          localStorage.setItem('accessToken', res.data.data.access_token)
-          context.commit('setToken', res.data.data.access_token)
+          // console.log(res.data)
+          localStorage.setItem('accessToken', res.data.access)
+          localStorage.setItem('refreshToken', res.data.refresh)
+          localStorage.setItem('isSuper', res.data.is_superuser)
+          context.commit('setToken', res.data)
            resolve(res.data)
         }).catch(error=>{
           reject(error)
@@ -40,7 +57,7 @@ export default new Vuex.Store({
     },
     register(context, formdata){
       return new Promise((resolve, reject)=>{
-        axios.post('/register',{
+        axios.post('users/register/',{
           name: formdata.name,
           email: formdata.email,
           password: formdata.password
@@ -54,8 +71,12 @@ export default new Vuex.Store({
     logout(context){
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       return new Promise((resolve, reject)=>{
-        axios.post('/logout').then(res=>{
+        axios.post('/users/logout/',{
+           refresh: localStorage.getItem('refreshToken'),
+        }).then(res=>{
           localStorage.removeItem('accessToken')
+          localStorage.removeItem('refreshToken')
+          localStorage.removeItem('isSuper')
           context.commit('removeToken')
            resolve(res.data)
         }).catch(error=>{

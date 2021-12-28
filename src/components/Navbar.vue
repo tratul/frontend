@@ -14,8 +14,14 @@
                 <li class="nav-item">
                 <router-link class="nav-link" :to="{name:'About'}">About</router-link>
                 </li>
-                <li class="nav-item" v-if="loggedIn">
-                <router-link class="nav-link" :to="{name:'Blog'}">Blog</router-link>
+                <li class="nav-item" v-if="loggedIn && !isSuper">
+                <router-link class="nav-link" :to="{name:'shop'}">Shop</router-link>
+                </li>
+                <li class="nav-item" v-if="loggedIn && isSuper">
+                <router-link to="/products" class="nav-link">Products</router-link>
+                </li>
+                <li class="nav-item" v-if="loggedIn && isSuper">
+                <router-link to="/add" class="nav-link">Add Products</router-link>
                 </li>
                 <li class="nav-item" v-if="!loggedIn">
                 <router-link class="nav-link" :to="{name:'Login'}">Login</router-link>
@@ -39,7 +45,10 @@ export default {
   computed: {
       loggedIn() {
           return this.$store.getters.loggedIn
-      }
+      },
+      isSuper() {
+          return this.$store.getters.isSuper
+      },
   }
 }
 </script>
